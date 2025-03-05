@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unidino"
+version = "2025.0.0"
+requires-python = ">=3.8"
+authors = [{name = "Flavio Morelli"}]
+description = "uniDINO: Generalist Feature Extractor for Fluorescence Microscopy"
+readme = "README.md"
+
+[tool.setuptools]
+packages = ["source"]
