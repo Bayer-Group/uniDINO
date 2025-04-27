@@ -1,14 +1,22 @@
 # uniDINO: assay-independent feature extraction for fluorescence microscopy images
-*Authors: Flavio M. Morelli, Vladislav Kim, Franziska Hecker, Sven Geibel, Paula A. Marin Zapata*
+Flavio M. Morelli, Vladislav Kim, Franziska Hecker, Sven Geibel, Paula A. Marin Zapata.
+*Computational and Structural Biotechnology Journal*, Volume 27, 928 - 936.
 
-This repository contains the code used for training, inference, and evaluation of the model  presented in the manuscript "uniDINO: Assay-independent feature extraction for fluorescence microscopy images". The code is partially based on [this repo](https://github.com/Bayer-Group/CellPaintSSL.git).
+This repository contains the code used for training, inference, and evaluation of the model presented in the manuscript "uniDINO: Assay-independent feature extraction for fluorescence microscopy images". 
 
-**All instructions assume that the working directory is the cloned repo**
+[Link](https://doi.org/10.1016/j.csbj.2025.02.020) to the paper 
+
+[Link](https://doi.org/10.5281/zenodo.14988837) to model weights, embeddings and sample data.
+
+The code is partially based on [this repo](https://github.com/Bayer-Group/CellPaintSSL.git).
+
+**All instructions assume that the working directory is the cloned repo.**
 
 ## 0. Overview
-High-content imaging (HCI) enables the characterization of cellular states through the extraction of quantitative features from fluorescence microscopy images. Despite the widespread availability of HCI data, the development of generalizable feature extraction models remains challenging due to the heterogeneity of microscopy images, as experiments often differ in channel count, cell type, and assay conditions. To address these challenges, we introduce uniDINO, a generalist feature extraction model capable of handling images with an arbitrary number of channels. We train uniDINO on a dataset of over 900,000 single-channel images from diverse experimental contexts and concatenate single-channel features to generate embeddings for multi-channel images. Our extensive validation across varied datasets demonstrates that uniDINO outperforms traditional computer vision methods and transfer learning from natural images, while also providing interpretability through channel attribution. uniDINO offers an out-of-the-box, computationally efficient solution for feature extraction in fluorescence microscopy, with the potential to significantly accelerate the analysis of HCI datasets.
 
 ![alt text](graphical_abstract.png)
+
+High-content imaging (HCI) enables the characterization of cellular states through the extraction of quantitative features from fluorescence microscopy images. Despite the widespread availability of HCI data, the development of generalizable feature extraction models remains challenging due to the heterogeneity of microscopy images, as experiments often differ in channel count, cell type, and assay conditions. To address these challenges, we introduce uniDINO, a generalist feature extraction model capable of handling images with an arbitrary number of channels. We train uniDINO on a dataset of over 900,000 single-channel images from diverse experimental contexts and concatenate single-channel features to generate embeddings for multi-channel images. Our extensive validation across varied datasets demonstrates that uniDINO outperforms traditional computer vision methods and transfer learning from natural images, while also providing interpretability through channel attribution. uniDINO offers an out-of-the-box, computationally efficient solution for feature extraction in fluorescence microscopy, with the potential to significantly accelerate the analysis of HCI datasets.
 
 ## 1. Conda environment (Linux, CUDA)
 We provide a conda environment for Linux with CUDA (x86_64 architecture). Model training can only be conducted in a Linux environment with NVIDIA GPUs.
@@ -31,6 +39,8 @@ Our codebase keeps track of all the path in `source/path.py`. The root paths may
 ## 4. Dataloader format
 
 Data loading is an essential part of uniDINO (`source/io.py`) due to dataset heterogeneity and to the differing behaviors of training and inference. During training we load single-channels chosen at random from a random image in a random data set. During inference, we need all the channels of an image to create an embedding. A simple example is given in `./example_data/example_metadata`, and in the `ExampleJUMPCPMetadata` class in `source/io.py`.
+
+**NOTE:** If you are interested in integrating the pretrained uniDINO for inference into your own code, you can start with [`forward_inference`](https://github.com/Bayer-Group/uniDINO/blob/95cd8a9f9f0466bc87bc19d5450a0e166847582d/source/inference_utils.py#L11) in `inference_utils.py` for the forward pass and [`vit_small`](https://github.com/Bayer-Group/uniDINO/blob/95cd8a9f9f0466bc87bc19d5450a0e166847582d/source/dino/vision_transformer.py#L353) in `dino/vision_transformer.py`. 
 
 
 ### 4.1. The `Dataset` class
